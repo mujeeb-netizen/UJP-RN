@@ -205,7 +205,7 @@ export default function ConferenceById({ route, navigation }) {
                         <Card>
                             <Title style={{ color: '#0750A4' }}>Status: Paper {mysub.status.trim()  }</Title>
                             <Card.Content style={{ marginTop: '5%' }}>
-                                <Button onPress={() => navigation.navigate('FeePayment', { irb:mysub.isroombooked,fee:mysub.fee_android })} color="white" titleStyle={{ color: '#fff' }} style={{ color: '#fff', backgroundColor: '#0750A4' }}>
+                                <Button onPress={() => navigation.navigate('FeePayment', { irb: mysub.isroombooked, fee: mysub.fee_android, cid: cid, sid: sid })} color="white" titleStyle={{ color: '#fff' }} style={{ color: '#fff', backgroundColor: '#0750A4' }}>
                                   Please Pay Conference Fee
                                 </Button>
                                 <Divider />
