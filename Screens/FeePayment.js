@@ -38,6 +38,7 @@ export default function FeePayment({ navigation, route }) {
     var [days, setDays] = React.useState(1);
     var [charge, setcharge] = React.useState(0);
     var [prevfee, setPrevfee] = React.useState(0);
+    var [image, setImage] = React.useState(null);
  
     let openImagePickerAsync = async () => {
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -47,8 +48,36 @@ export default function FeePayment({ navigation, route }) {
             
         }
 
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+             
+            base64: true
+        });
         console.log(pickerResult);
+        if (!pickerResult.cancelled) {
+        setImage(pickerResult.uri)
+          
+            let base64Img = `data:image/jpg;base64,${pickerResult.base64}`
+
+            //Add your cloud name
+            let apiUrl = 'https://api.cloudinary.com/v1_1/du3j5iidy/image/upload';
+
+            let data = {
+                "file": base64Img,
+                "upload_preset": "lg0kpmhq",
+            }
+
+            fetch(apiUrl, {
+                body: JSON.stringify(data),
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'POST',
+            }).then(async r => {
+                let data = await r.json()
+                console.log(data,"hh")
+                return data.secure_url
+            }).catch(err => console.log(err))
+        }
     }
 
     var [total, setTotal] = React.useState(0);
